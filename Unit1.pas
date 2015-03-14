@@ -67,7 +67,8 @@ var
   procedure drawTree(_node: Node);
   procedure findVariable(_node: Node);
   procedure drawFormula(_node: Node);
-  procedure functionWriteFile(_tree: Tree);
+  procedure functionWriteFilePrepare(_tree: Tree);
+  procedure functionWriteFile();
 
 implementation
 uses Unit2;
@@ -335,7 +336,26 @@ begin
   end;
 end;
 ////////////////////////////////////////////////////////////////////////////////////////
-procedure functionWriteFile(_tree: Tree);
+procedure functionWriteFilePrepare(_tree: Tree);
+var
+  str, str_out, str_out2: TStringList;
+  f, f2: TextFile;
+  i, j, k, n: Integer;
+  test: String;
+begin
+  findVariable(_tree.root);
+  vars.Add(_tree.value);
+
+  if (_tree.root._not = false) then for k := 0 to (count_box + count_vars + 1) do buff.Add('0') 
+  else for k := 0 to (count_box + count_vars + 2) do buff.Add('0'); 
+  width := ((count_box + 2) * 40);
+  variables.Add('@VAR:' + IntToStr(id) + ',P=(' + IntToStr(width) + ',' + IntToStr(height) + '),S=(32,4),C=(1,1),X=' + _tree.value); 
+  width := width - 32;
+  id := id + 1;
+  drawFormula(_tree.root); 
+end;
+////////////////////////////////////////////////////////////////////////////////////////
+procedure functionWriteFile();
 var
   str, str_out, str_out2: TStringList;
   f, f2: TextFile;
@@ -344,82 +364,44 @@ var
 begin
   str := TStringList.Create;
   str_out := TStringList.Create;
-
   AssignFile(f, Unit1.Form1.Edit3.Text);
   str.LoadFromFile(Unit1.Form1.Edit3.Text, TEncoding.ANSI);
-  for i := 0 to (str.Count - 1) do
+  str_out.Add(str[0]); // <?xml version="1.0" encoding="utf-8"?>
+  str_out.Add(str[1]); // <Pou FileVersion= ........>
+  str_out.Add(str[2]); //   <Program />
+  str_out.Add(str[3]); //   <LocalVars>
+  for j := 0 to (vars.Count - 1) do
   begin
-   if (AnsiPos('</LocalVars>', str[i]) <> 0) then
-   begin
-      findVariable(_tree.root);
-      vars.Add(_tree.value);
-      for j := 0 to (vars.Count - 1) do
-      begin
-        if (vars[j] = _tree.value) and (str_out.IndexOf('    <Variable Name="' + vars[j] + '" DataType="BOOL" InitialValue="" Comment="" Address="" Kind="Var" Alias="" AccessRights="ReadWrite" StringSize="0" />') = -1) then
-          str_out.Add('    <Variable Name="' + _tree.value + '" DataType="BOOL" InitialValue="" Comment="" Address="" Kind="Var" Alias="" AccessRights="ReadWrite" StringSize="0" />')
-        else if (str_out.IndexOf('    <Variable Name="' + vars[j] + '" DataType="BOOL" InitialValue="" Comment="" Address="" Kind="Var" Alias="" AccessRights="ReadWrite" StringSize="0" />') = -1) then
-          str_out.Add('    <Variable Name="' + vars[j] + '" DataType="BOOL" InitialValue="" Comment="" Address="" Kind="Var" Alias="" AccessRights="ReadWrite" StringSize="0" />');
-      end;
-      str_out.Add('  </LocalVars>');
-   end
-   else if AnsiPos('#info= FBD', str[i]) <> 0 then
-   begin
-    str_out.Add('#info= FBD');
-    if (_tree.root._not = false) then
-    begin
-      str_out.Add('@@NBID=' + IntToStr(count_box + count_vars + 1));
-    end
-    else
-    begin
-      str_out.Add('@@NBID=' + IntToStr(count_box + count_vars + 2));
-    end;
-
-    if (_tree.root._not = false) then for k := 0 to (count_box + count_vars + 1) do buff.Add('0')
-    else for k := 0 to (count_box + count_vars + 2) do buff.Add('0');
-
-    width := ((count_box + 2) * 40);
-    variables.Add('@VAR:' + IntToStr(id) + ',P=(' + IntToStr(width) + ',' + IntToStr(height) + '),S=(32,4),C=(1,1),X=' + _tree.value);
-    width := width - 32;
-    id := id + 1;
-    drawFormula(_tree.root);
-    for j := 0 to (boxs.Count - 1) do
-    begin
-     str_out.Add(boxs[j]);
-    end;
-    for j := 0 to (variables.Count - 1) do
-    begin
-     str_out.Add(variables[j]);
-    end;
-    for j := 0 to (arcs.Count - 1) do
-    begin
-        str_out.Add(arcs[j]);
-    end;
-
-    str_out.Add('#end_info');
-    str_out.Add('#info= ID_MAX');
-    if (_tree.root._not = false) then str_out.Add('NextId=' + IntToStr(count_box + count_vars + 1))
-    else str_out.Add('NextId=' + IntToStr(count_box + count_vars + 2));
-   end
-   else if (AnsiPos('NextId', str[i]) <> 0) then
-   begin
-     str_out.Add(str[i]);
-     str_out.Add('#end_info');
-     str_out.Add('END_PROGRAM]]></PouBody>');
-     str_out.Add('</Pou>');
-     ReWrite(f);
-     for n := 0 to (str_out.Count - 1) do
-       WriteLn(f, str_out[n]);
-     CloseFile(f);
-     Exit;
-   end
-   else str_out.Add(str[i]);
+    if (str_out.IndexOf('    <Variable Name="' + vars[j] + '" DataType="BOOL" InitialValue="" Comment="" Address="" Kind="Var" Alias="" AccessRights="ReadWrite" StringSize="0" />') = -1) then
+      str_out.Add('    <Variable Name="' + vars[j] + '" DataType="BOOL" InitialValue="" Comment="" Address="" Kind="Var" Alias="" AccessRights="ReadWrite" StringSize="0" />');
   end;
-
+  str_out.Add('  </LocalVars>');
+  str_out.Add('#info= FBD');
+  str_out.Add('@@NBID=' + IntToStr(count_box + count_vars + 1));
+  for j := 0 to (boxs.Count - 1) do
+  begin
+   str_out.Add(boxs[j]);
+  end;
+  for j := 0 to (variables.Count - 1) do
+  begin
+   str_out.Add(variables[j]);
+  end;
+  for j := 0 to (arcs.Count - 1) do
+  begin
+      str_out.Add(arcs[j]);
+  end;
+  str_out.Add('#end_info');
+  str_out.Add('#info= ID_MAX');
+  str_out.Add('NextId=' + IntToStr(count_box + count_vars + 1));
+  str_out.Add('#end_info');
+  str_out.Add('END_PROGRAM]]></PouBody>');
+  str_out.Add('</Pou>');
   ReWrite(f);
   for i := 0 to (str_out.Count - 1) do
     WriteLn(f, str_out[i]);
   CloseFile(f);
 end;
+
 ////////////////////////////////////////////////////////////////////////////////////////
 procedure TForm1.Button1Click(Sender: TObject);
 var
@@ -463,9 +445,9 @@ begin
     drawTree(_tree.root);
 
     // запись в файл схемы блоков (foreach tree = для каждой строки формул)
-    functionWriteFile(_tree);
+    functionWriteFilePrepare(_tree);
   end;
-
+  functionWriteFile();
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
