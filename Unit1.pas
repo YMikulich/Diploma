@@ -448,6 +448,7 @@ begin
     functionWriteFilePrepare(_tree);
   end;
   functionWriteFile();
+  ShowMessage('Выполнено');
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
@@ -520,6 +521,7 @@ begin
     WriteLn(f2, _message2[i]);
   CloseFile(f);
   CloseFile(f2);
+  ShowMessage('Выполнено');
 end;
 /////////////////////////////////////////////////////////////////////////////////////////
 procedure TForm1.Button5Click(Sender: TObject);
