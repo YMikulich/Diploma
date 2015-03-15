@@ -1,4 +1,4 @@
-unit Unit1;
+п»їunit Unit1;
 
 interface
 
@@ -144,14 +144,14 @@ begin
   leftNot := false; rightNot := false;
   index1 := IndexOfAny(str, '+*');
   index2 := IndexOfAny(str, '(');
-  if (index1 >= 1) and (index2 >= 1) and (index2 < index1) then     // если первые скобки в левой части
+  if (index1 >= 1) and (index2 >= 1) and (index2 < index1) then     // ГҐГ±Г«ГЁ ГЇГҐГ°ГўГ»ГҐ Г±ГЄГ®ГЎГЄГЁ Гў Г«ГҐГўГ®Г© Г·Г Г±ГІГЁ
   begin
     if (index2 - 1 >= 1) and (str[index2 - 1] = '^') then leftNot := true;
     tmp := IntToStr(index2);
-    last := StrToInt(list.Values[tmp]);    //проверить
-    left := Copy(str, index2 + 1, (last - index2) - 1); //проверить
-    right := Copy(str, last + 2, MaxInt); //проверить
-    if ((last + 1) >= 0) and ((last + 1) < Length(str)) then value := str[last + 1]; //проверить
+    last := StrToInt(list.Values[tmp]);    //ГЇГ°Г®ГўГҐГ°ГЁГІГј
+    left := Copy(str, index2 + 1, (last - index2) - 1); //ГЇГ°Г®ГўГҐГ°ГЁГІГј
+    right := Copy(str, last + 2, MaxInt); //ГЇГ°Г®ГўГҐГ°ГЁГІГј
+    if ((last + 1) >= 0) and ((last + 1) < Length(str)) then value := str[last + 1]; //ГЇГ°Г®ГўГҐГ°ГЁГІГј
     index := last + 2;
     if (index >= 0) and (index < Length(str)) and (str[index] = '^') then
     begin
@@ -260,30 +260,30 @@ procedure drawTree(_node: Node);
 begin
   if (_node.left = nil) and (_node.right = nil) then
   begin
-    if (_node._not = true) then view := view + ' НЕ (' + _node.symbol + ')'
+    if (_node._not = true) then view := view + ' ГЌГ… (' + _node.symbol + ')'
     else view := view + _node.symbol;
   end;
   if (_node.left <> nil) then
   begin
     if (_node.left.left = nil) and (_node.left.right = nil) then
-      if _node._not = true then view := view + ' НЕ (';       // 2 вариант
-    if (_node.symbol = '*') then view := view + ' И ('
-    else if _node.symbol = '+' then view := view + ' ИЛИ (';
+      if _node._not = true then view := view + ' ГЌГ… (';       // 2 ГўГ Г°ГЁГ Г­ГІ
+    if (_node.symbol = '*') then view := view + ' Г€ ('
+    else if _node.symbol = '+' then view := view + ' Г€Г‹Г€ (';
     if (_node.left.left <> nil) or (_node.left.right <> nil) then
-       if (_node._not = true) then view := view + ' НЕ (';       // 1 вариант
+       if (_node._not = true) then view := view + ' ГЌГ… (';       // 1 ГўГ Г°ГЁГ Г­ГІ
     drawTree(_node.left);
   end;
   if (_node.right <> nil) then
   begin
     if (_node.left.left <> nil) or (_node.left.right <> nil) then
-      if (_node._not = true) then view := view + ')';           // 1 вариант
+      if (_node._not = true) then view := view + ')';           // 1 ГўГ Г°ГЁГ Г­ГІ
     if (_node.symbol = '*') then view := view +  ';'
     else if (_node.symbol = '+') then view := view +  ';';
     drawTree(_node.right);
     if (_node.symbol = '*') then view := view + ')'
     else if (_node.symbol = '+') then view := view + ')';
     if (_node.left.left = nil) and (_node.left.right = nil) then
-      if (_node._not = true) then view := view + ')';           // 2 вариант
+      if (_node._not = true) then view := view + ')';           // 2 ГўГ Г°ГЁГ Г­ГІ
   end;
 end;
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -357,19 +357,27 @@ end;
 ////////////////////////////////////////////////////////////////////////////////////////
 procedure functionWriteFile();
 var
-  str, str_out, str_out2: TStringList;
+  str, str2, str_out, str_out2: TStringList;
   f, f2: TextFile;
   i, j, k, n: Integer;
   test: String;
 begin
-  str := TStringList.Create;
-  str_out := TStringList.Create;
-  AssignFile(f, Unit1.Form1.Edit3.Text);
-  str.LoadFromFile(Unit1.Form1.Edit3.Text, TEncoding.ANSI);
+  str      := TStringList.Create;
+  str2     := TStringList.Create;
+  str_out  := TStringList.Create;
+  str_out2 := TStringList.Create;
+  test := Copy(Unit1.Form1.Edit3.Text, 1, Length(Unit1.Form1.Edit3.Text) - 6) + 'stf';
+  AssignFile(f, Unit1.Form1.Edit3.Text);                                                    // Prog1.isaxml РґР»СЏ Р·Р°РїРёСЃРё
+  AssignFile(f2, Copy(Unit1.Form1.Edit3.Text, 1, Length(Unit1.Form1.Edit3.Text) - 6) + 'stf'); // Prog1.stf    РґР»СЏ Р·Р°РїРёСЃРё
+  str.LoadFromFile(Unit1.Form1.Edit3.Text, TEncoding.ANSI);                                                    // Prog1.isaxml РґР»СЏ С‡С‚РµРЅРёСЏ
+  str2.LoadFromFile(Copy(Unit1.Form1.Edit3.Text, Length(Unit1.Form1.Edit3.Text) - 6) + 'stf', TEncoding.ANSI); // Prog1.stf    РґР»СЏ С‡С‚РµРЅРёСЏ
   str_out.Add(str[0]); // <?xml version="1.0" encoding="utf-8"?>
   str_out.Add(str[1]); // <Pou FileVersion= ........>
   str_out.Add(str[2]); //   <Program />
   str_out.Add(str[3]); //   <LocalVars>
+
+  str_out2.Add(str2[0]); // PROGRAM Prog1
+
   for j := 0 to (vars.Count - 1) do
   begin
     if (str_out.IndexOf('    <Variable Name="' + vars[j] + '" DataType="BOOL" InitialValue="" Comment="" Address="" Kind="Var" Alias="" AccessRights="ReadWrite" StringSize="0" />') = -1) then
@@ -378,17 +386,22 @@ begin
   str_out.Add('  </LocalVars>');
   str_out.Add('#info= FBD');
   str_out.Add('@@NBID=' + IntToStr(count_box + count_vars + 1));
+  str_out2.Add('#info= FBD');
+  str_out2.Add('@@NBID=' + IntToStr(count_box + count_vars + 1));
   for j := 0 to (boxs.Count - 1) do
   begin
    str_out.Add(boxs[j]);
+   str_out2.Add(boxs[j]);
   end;
   for j := 0 to (variables.Count - 1) do
   begin
    str_out.Add(variables[j]);
+   str_out2.Add(variables[j]);
   end;
   for j := 0 to (arcs.Count - 1) do
   begin
       str_out.Add(arcs[j]);
+      str_out2.Add(arcs[j]);
   end;
   str_out.Add('#end_info');
   str_out.Add('#info= ID_MAX');
@@ -396,10 +409,19 @@ begin
   str_out.Add('#end_info');
   str_out.Add('END_PROGRAM]]></PouBody>');
   str_out.Add('</Pou>');
+
+  str_out2.Add('#end_info');
+  str_out2.Add('END_PROGRAM');
+
   ReWrite(f);
   for i := 0 to (str_out.Count - 1) do
     WriteLn(f, str_out[i]);
   CloseFile(f);
+
+  ReWrite(f2);
+  for i := 0 to (str_out2.Count - 1) do
+    WriteLn(f2, str_out2[i]);
+  CloseFile(f2);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -444,16 +466,16 @@ begin
     buildTree(_message, _tree.root, brackets(_message), false);
     drawTree(_tree.root);
 
-    // запись в файл схемы блоков (foreach tree = для каждой строки формул)
+    // Г§Г ГЇГЁГ±Гј Гў ГґГ Г©Г« Г±ГµГҐГ¬Г» ГЎГ«Г®ГЄГ®Гў (foreach tree = Г¤Г«Гї ГЄГ Г¦Г¤Г®Г© Г±ГІГ°Г®ГЄГЁ ГґГ®Г°Г¬ГіГ«)
     functionWriteFilePrepare(_tree);
   end;
   functionWriteFile();
-  ShowMessage('Выполнено');
+  ShowMessage('Р’С‹РїРѕР»РЅРµРЅРѕ');
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
-  DataModule2.OpenDialog1.Title := 'Выберите входной файл с логическими формулами';
+  DataModule2.OpenDialog1.Title := 'Г‚Г»ГЎГҐГ°ГЁГІГҐ ГўГµГ®Г¤Г­Г®Г© ГґГ Г©Г« Г± Г«Г®ГЈГЁГ·ГҐГ±ГЄГЁГ¬ГЁ ГґГ®Г°Г¬ГіГ«Г Г¬ГЁ';
   DataModule2.OpenDialog1.Filter := 'Text Files(*.txt)|*.txt';
   DataModule2.OpenDialog1.FilterIndex := 0;
   DataModule2.OpenDialog1.FileName := '';
@@ -464,7 +486,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////////
 procedure TForm1.Button3Click(Sender: TObject);
 begin
-  DataModule2.SaveDialog1.Title := 'Выберите выходной файл для функциональных формул';
+  DataModule2.SaveDialog1.Title := 'Г‚Г»ГЎГҐГ°ГЁГІГҐ ГўГ»ГµГ®Г¤Г­Г®Г© ГґГ Г©Г« Г¤Г«Гї ГґГіГ­ГЄГ¶ГЁГ®Г­Г Г«ГјГ­Г»Гµ ГґГ®Г°Г¬ГіГ«';
   DataModule2.SaveDialog1.Filter := 'Text Files(*.txt)|*.txt';
   DataModule2.SaveDialog1.FilterIndex := 0;
   DataModule2.SaveDialog1.FileName := '';
@@ -521,12 +543,12 @@ begin
     WriteLn(f2, _message2[i]);
   CloseFile(f);
   CloseFile(f2);
-  ShowMessage('Выполнено');
+  ShowMessage('Г‚Г»ГЇГ®Г«Г­ГҐГ­Г®');
 end;
 /////////////////////////////////////////////////////////////////////////////////////////
 procedure TForm1.Button5Click(Sender: TObject);
 begin
-  DataModule2.SaveDialog1.Title := 'Выберите выходной файл на языке FBD';
+  DataModule2.SaveDialog1.Title := 'Г‚Г»ГЎГҐГ°ГЁГІГҐ ГўГ»ГµГ®Г¤Г­Г®Г© ГґГ Г©Г« Г­Г  ГїГ§Г»ГЄГҐ FBD';
   DataModule2.SaveDialog1.Filter := 'IsaXml Files(*.isaxml)|*.isaxml';
   DataModule2.SaveDialog1.FilterIndex := 0;
   DataModule2.SaveDialog1.FileName := '';
