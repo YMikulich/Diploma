@@ -85,10 +85,6 @@ object Form1: TForm1
     object TabSheet2: TTabSheet
       Caption = #1060#1091#1085#1082#1094#1080#1086#1085#1072#1083#1100#1085#1099#1077' '#1092#1086#1088#1084#1091#1083#1099' '#1085#1072' '#1103#1079#1099#1082' FBD'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Label4: TLabel
         Left = 96
         Top = 93
