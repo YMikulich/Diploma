@@ -453,8 +453,8 @@ begin
   str_out  := TStringList.Create;
   filename1 := Unit1.Form1.Edit3.Text;
   AssignFile(f, filename1);                     // Prog1.isaxml  для записи
-  str.LoadFromFile(filename1, TEncoding.ANSI);  // Prog1.isaxml для чтения
-  str_out.Add(str[0]);           // <?xml version="1.0" encoding="utf-8"?>
+  str.LoadFromFile(filename1, TEncoding.Default);  // Prog1.isaxml для чтения
+  str_out.Add('<?xml version="1.0" encoding="utf-8"?>');           // <?xml version="1.0" encoding="utf-8"?>
   str_out.Add(str[1]);          // <Pou FileVersion= ........>
   str_out.Add(str[2]);          //   <Program />
   str_out.Add('  <LocalVars>'); //   <LocalVars />
@@ -489,7 +489,7 @@ begin
 
   for j := 0 to (str_out.Count - 1) do
     str_out[j] := TranslitRus2Lat(str_out[j]);
-  str_out.SaveToFile (filename1, TEncoding.ANSI);
+  str_out.SaveToFile (filename1, TEncoding.Default);
 end;
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -555,7 +555,7 @@ var
 begin
   _message := TStringList.Create;
   _message2 := TStringList.Create;
-  _message.LoadFromFile(edit1.Text, TEncoding.ANSI);
+  _message.LoadFromFile(edit1.Text, TEncoding.Default);
   for i := 0 to (_message.Count - 1) do
   begin
     _message[i] := TranslitRus2Lat(_message[i]);
