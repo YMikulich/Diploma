@@ -350,12 +350,12 @@ begin
       boxs.Add('@BOX:' + IntToStr(id) + ',P=(' + IntToStr(width) + ',' + IntToStr(height + 4) + '),S=(24,8),C=(1,1),X=NOT' + #13 + 'T=0');
       if (from <> 0) and (_to = 0) then begin _to := id; to_size := width; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
       if (from = 0) then begin from := id; from_size := width + 24; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
-      if (from <> 0) and (_to <> 0) then
-      begin
-        arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(from) + ',' + IntToStr(StrToInt(buff[from - 1]) - 1) + '),T=(' + IntToStr(_to) + ',' + IntToStr(StrToInt(buff[_to - 1]) - 1) + ')' + #13 + 'P=(' +
-        FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
-        from := 0; _to := 0;
-      end;
+      arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 1{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(0{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      //if (from <> 0) and (_to <> 0) then
+      //begin
+      //  arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 1{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(0{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      //  from := 0; _to := 0;
+      //end;
       width := width - 40;
       id := id + 1;
     end;
@@ -364,8 +364,7 @@ begin
     if (from = 0) then begin from := id; from_size := width + 24; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
     if (from <> 0) and (_to <> 0) then
     begin
-      arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(from) + ',' + IntToStr(StrToInt(buff[from - 1]) - 1) + '),T=(' + IntToStr(_to) + ',' + IntToStr(StrToInt(buff[_to - 1]) - 1) + ')' + #13 + 'P=(' +
-      FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      //arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(from) + ',' + IntToStr(StrToInt(buff[from - 1]) - 1) + '),T=(' + IntToStr(_to) + ',' + IntToStr(StrToInt(buff[_to - 1]) - 1) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
       from := 0; _to := 0;
     end;
     height := height + 4;
@@ -378,12 +377,12 @@ begin
      boxs.Add('@BOX:' + IntToStr(id) + ',P=(' + IntToStr(width) + ',' + IntToStr(height + 4) + '),S=(24,8),C=(1,1),X=NOT' + #13 + 'T=0');
      if (from <> 0) and (_to = 0) then begin _to := id; to_size := width; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
      if (from = 0) then begin from := id; from_size := width + 24; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
-     if (from <> 0) and (_to <> 0) then
-     begin
-       arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(from) + ',' + IntToStr(StrToInt(buff[from - 1]) - 1) + '),T=(' + IntToStr(_to) + ',' + IntToStr(StrToInt(buff[_to - 1]) - 1) + ')' + #13 + 'P=(' +
-       FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
-       from := 0; _to := 0;
-     end;
+     arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 1{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(0{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+     //if (from <> 0) and (_to <> 0) then
+     //begin
+     // arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 1{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(0{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+     //  from := 0; _to := 0;
+     //end;
      width := width - 40;
      id := id + 1;
     end;
@@ -392,24 +391,28 @@ begin
       boxs.Add('@BOX:' + IntToStr(id) + ',P=(' + IntToStr(width) + ',' + IntToStr(height + 2) + '),S=(24,12),C=(2,1),X=AND' + #13 + 'T=0');
       if (from <> 0) and (_to = 0) then begin _to := id; to_size := width; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
       if (from = 0) then begin from := id; from_size := width + 24; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
-      if (from <> 0) and (_to <> 0) then
-      begin
-        arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(from) + ',' + IntToStr(StrToInt(buff[from - 1]) - 1) + '),T=(' + IntToStr(_to) + ',' + IntToStr(StrToInt(buff[_to - 1]) - 1) + ')' + #13 + 'P=(' +
-        FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
-        from := 0; _to := 0;
-      end;
+      arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 1{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(0{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 2{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(1{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      //if (from <> 0) and (_to <> 0) then
+      //begin
+      //  arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 1{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(0{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      //  arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 2{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(1{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      //  from := 0; _to := 0;
+      //end;
     end
     else if (_node.symbol = '+') then
     begin
       boxs.Add('@BOX:' + IntToStr(id) + ',P=(' + IntToStr(width) + ',' + IntToStr(height + 2) + '),S=(24,12),C=(2,1),X=OR' + #13 + 'T=0');
       if (from <> 0) and (_to = 0) then begin _to := id; to_size := width; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
       if (from = 0) then begin from := id; from_size := width + 24; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
-      if (from <> 0) and (_to <> 0) then
-      begin
-        arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(from) + ',' + IntToStr(StrToInt(buff[from - 1]) - 1) + '),T=(' + IntToStr(_to) + ',' + IntToStr(StrToInt(buff[_to - 1]) - 1) + ')' + #13 + 'P=(' +
-        FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
-        from := 0; _to := 0;
-      end;
+      arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 1{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(0{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 2{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(1{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      //if (from <> 0) and (_to <> 0) then
+      //begin
+      //  arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 1{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(0{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      //  arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 2{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(1{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+      //  from := 0; _to := 0;
+      //end;
     end;
     width := width - 40;
     id := id+ 1;
@@ -434,12 +437,12 @@ begin
   variables.Add('@VAR:' + IntToStr(id) + ',P=(' + IntToStr(width) + ',' + IntToStr(height) + '),S=(32,4),C=(1,1),X=' + _tree.value);
   if (from <> 0) and (_to = 0) then begin _to := id; to_size := width; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
   if (from = 0) then begin from := id; from_size := width + 24; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
-  if (from <> 0) and (_to <> 0) then
-  begin
-    arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(from) + ',' + IntToStr(StrToInt(buff[from - 1]) - 1) + '),T=(' + IntToStr(_to) + ',' + IntToStr(StrToInt(buff[_to - 1]) - 1) + ')' + #13 + 'P=(' +
-    FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
-    from := 0; _to := 0;
-  end;
+  arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(id + 2{from}) + ',' + IntToStr(0{StrToInt(buff[from - 1]) - 1}) + '),T=(' + IntToStr(id{_to}) + ',' + IntToStr(1{StrToInt(buff[_to - 1]) - 1}) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+  //if (from <> 0) and (_to <> 0) then
+  //begin
+  //  arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(from) + ',' + IntToStr(StrToInt(buff[from - 1]) - 1) + '),T=(' + IntToStr(_to) + ',' + IntToStr(StrToInt(buff[_to - 1]) - 1) + ')' + #13 + 'P=(' + FloatToStr(from_size + 0.4) + ';' + FloatToStr(to_size + 0.4) + ')');
+  //  from := 0; _to := 0;
+  //end;
   width := width - 32;
   id := id + 1;
   drawFormula(_tree.root);
