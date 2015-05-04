@@ -427,9 +427,10 @@ begin
 
   if (_tree.root._not = false) then for k := 0 to (count_box + count_vars + 1) do buff.Add('0')
   else for k := 0 to (count_box + count_vars + 2) do buff.Add('0');
-  width := ((count_box + 2) * 40) - width_temp;
-  width_temp := width + width_temp;
-  height := height + 40;
+
+  width := ((count_box + 3  - width_temp) * 40);
+  width_temp := count_box;
+  height := height + 20;
   variables.Add('@VAR:' + IntToStr(id) + ',P=(' + IntToStr(width) + ',' + IntToStr(height) + '),S=(32,4),C=(1,1),X=' + _tree.value);
   if (from <> 0) and (_to = 0) then begin _to := id; to_size := width; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
   if (from = 0) then begin from := id; from_size := width + 24; buff[id - 1] := IntToStr(StrToInt(buff[id - 1]) + 1); end;
