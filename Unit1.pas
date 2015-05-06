@@ -293,9 +293,9 @@ begin
   end;
   if IndexOfAny(left, '+*(') <> 0 then
   begin
-    _node._not := leftNot;
+    //_node._not := leftNot;
     _node.left := Node.Create;
-    buildTree(left, _node.left, brackets(left), false);
+    buildTree(left, _node.left, brackets(left), {false}leftNot);
   end;
   if IndexOfAny(right, '+*(') <> 0 then
   begin
@@ -346,8 +346,8 @@ begin
   begin
     count_box := count_box + 1;
     if (_node._not = true) then count_box := count_box + 1;
-    findVariable(_node.left);
-    findVariable(_node.right);
+    if (_node.left  <> nil) then findVariable(_node.left);
+    if (_node.right <> nil) then findVariable(_node.right);
   end;
 end;
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -359,10 +359,10 @@ begin
     begin
       boxs.Add('@BOX:' + IntToStr(_node.id - 1) + ',P=(' + IntToStr(width) + ',' + IntToStr(height + 4) + '),S=(24,8),C=(1,1),X=NOT' + #13 + 'T=0');
       arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(_node.id) + ',' + IntToStr(0) + '),T=(' + IntToStr(_node.id - 1) + ',' + IntToStr(0) + ')' + #13 + 'P=(' + FloatToStr(width - 40 + 0.4) + ';' + FloatToStr(width + 0.4) + ')');
-      width := width - 40;      
+      width := width - 40;
     end;
     variables.Add('@VAR:' + IntToStr(_node.id) + ',P=(' + IntToStr(width) + ',' + IntToStr(height) + '),S=(32,4),C=(1,1),X=' + _node.symbol);
-    height := height + 4;    
+    height := height + 4;
   end;
   if (_node.left <> nil) or (_node.right <> nil) then
   begin
@@ -389,8 +389,8 @@ begin
       else arcs.Add('@ARC:D=0,Z=(0,0),F=(' + IntToStr(_node.right.id) + ',' + IntToStr(0) + '),T=(' + IntToStr(_node.id) + ',' + IntToStr(1) + ')' + #13 + 'P=(' + FloatToStr(width - 40 + 0.4) + ';' + FloatToStr(width + 0.4) + ')');
     end;
     width := width - 40;
-    drawFormula(_node.left);
-    drawFormula(_node.right);
+    if (_node.left  <> nil) then drawFormula(_node.left);
+    if (_node.right <> nil) then drawFormula(_node.right);
   end;
 end;
 ////////////////////////////////////////////////////////////////////////////////////////
