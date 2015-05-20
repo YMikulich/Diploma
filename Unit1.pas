@@ -498,7 +498,6 @@ begin
 
     view := '';
     buildTree(_message, _tree.root, brackets(_message), false);
-    drawTree(_tree.root);
 
     // запись в файл схемы блоков (foreach tree = для каждой строки формул)
     functionWriteFilePrepare(_tree);
